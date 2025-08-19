@@ -4,5 +4,6 @@ class SpellsController < ApplicationController
   end
 
   def show
+    render json: Spell.find(params[:id]), except: %i[created_at updated_at]
   end
 end

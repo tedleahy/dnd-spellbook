@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { API_URL } from "../utils/constants";
+import { Spell } from "../utils/types";
 
 const styles = StyleSheet.create({
 	container: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 export default function SpellList() {
-	const [spells, setSpells] = useState([]);
+	const [spells, setSpells] = useState<Spell[]>([]);
 
 	useEffect(() => {
 		fetch(`${API_URL}/spells`)
@@ -28,7 +29,7 @@ export default function SpellList() {
 		<View style={styles.container}>
 			<FlatList
 				data={spells}
-				renderItem={({ item }) => <Text style={styles.spellItem}>{item.name}</Text>}
+				renderItem={({ item }: { item: Spell }) => (
 			/>
 		</View>
 	);

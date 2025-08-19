@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../utils/constants";
-import { Spell } from "../utils/types";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList, Spell } from "../utils/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SpellList'>;
 
 const styles = StyleSheet.create({
 	container: {
@@ -16,6 +20,7 @@ const styles = StyleSheet.create({
 });
 
 export default function SpellList() {
+	const navigation = useNavigation<NavigationProp>();
 	const [spells, setSpells] = useState<Spell[]>([]);
 
 	useEffect(() => {
@@ -25,11 +30,19 @@ export default function SpellList() {
 			.catch(error => console.error('Failed to fetch spells:', error));
 	}, []);
 
+	const handleSpellPress = (spell: Spell) => navigation.navigate('SpellDetails', { spell })
+
 	return (
 		<View style={styles.container}>
 			<FlatList
 				data={spells}
 				renderItem={({ item }: { item: Spell }) => (
+					<TouchableOpacity
+						onPress={() => handleSpellPress(item)}
+					>
+						<Text style={styles.spellItem}>{item.name}</Text>
+					</TouchableOpacity>
+				)}
 			/>
 		</View>
 	);

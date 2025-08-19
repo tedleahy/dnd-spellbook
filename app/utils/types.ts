@@ -12,3 +12,8 @@ export type Spell = {
     higher_levels_info: string,
 	spell_lists: string[],
 }
+
+export type RootStackParamList = {
+	SpellList: undefined;
+	SpellDetails: { spell: Spell };
+}

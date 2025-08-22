@@ -4,14 +4,7 @@ import SpellList from './components/SpellList';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './utils/types';
-
-function SpellDetails() {
-  return (
-    <View>
-      <Text>Spell Details</Text>
-    </View>
-  );
-}
+import SpellDetails from './components/SpellDetails';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

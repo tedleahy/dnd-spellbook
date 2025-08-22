@@ -4,6 +4,7 @@ import { API_URL } from "../utils/constants";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList, Spell } from "../utils/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { camelCaseObjectKeys } from "../utils/objects";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SpellList'>;
 
@@ -26,11 +27,11 @@ export default function SpellList() {
 	useEffect(() => {
 		fetch(`${API_URL}/spells`)
 			.then(response => response.json())
-			.then(data => setSpells(data))
+			.then(data => setSpells(data.map(camelCaseObjectKeys)))
 			.catch(error => console.error('Failed to fetch spells:', error));
 	}, []);
 
-	const handleSpellPress = (spell: Spell) => navigation.navigate('SpellDetails', { spell })
+	const handleSpellPress = (spell: Spell) => navigation.navigate('SpellDetails', { spell });
 
 	return (
 		<View style={styles.container}>

@@ -1,19 +1,19 @@
 export type Spell = {
-	name: string,
-	source: string,
+    name: string,
+    source: string,
     description: string,
     level: number,
     school: string,
-    is_ritual: boolean,
-    casting_time: string,
+    isRitual: boolean,
+    castingTime: string,
     range: string,
     duration: string,
     components: string,
-    higher_levels_info: string,
-	spell_lists: string[],
+    higherLevelsInfo: string,
+    spellLists: string[],
 }
 
 export type RootStackParamList = {
-	SpellList: undefined;
-	SpellDetails: { spell: Spell };
+    SpellList: undefined;
+    SpellDetails: { spell: Spell };
 }

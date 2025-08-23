@@ -95,12 +95,14 @@ export default function SpellDetails() {
         />
       </View>
 
-      <View style={styles.section}>
-        <Text>
-          <Text style={{ fontWeight: 'bold' }}>At Higher Levels: </Text>
-          <Text>{spell.higherLevelsInfo}</Text>
-        </Text>
-      </View>
+      {spell.higherLevelsInfo && (
+        <View style={styles.section}>
+          <Text>
+            <Text style={{ fontWeight: 'bold' }}>At Higher Levels: </Text>
+            <Text>{spell.higherLevelsInfo}</Text>
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 }

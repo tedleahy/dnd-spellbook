@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginBottom: 16,
   },
 });
 
@@ -49,10 +47,10 @@ export default function SpellDetails() {
       <View style={styles.header}>
         <Text style={styles.title}>{spell.name}</Text>
         <Text style={{ fontStyle: 'italic' }}>
-          {spell.isRitual && 'Ritual '}
           {spell.level === 0
             ? `${spell.school} Cantrip`
             : `Level ${spell.level} ${spell.school}`}
+          {spell.isRitual ? ' (Ritual)' : ''}
         </Text>
       </View>
 

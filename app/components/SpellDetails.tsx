@@ -18,16 +18,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
   },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
   header: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
 });
+
+const descriptionStyles = {
+  p: {
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 12,
+  },
+  ul: {
+    marginBottom: 12,
+  },
+  li: {
+    fontSize: 16,
+  },
+}
 
 export default function SpellDetails() {
   const route = useRoute<SpellDetailsRouteProp>();
@@ -81,7 +91,7 @@ export default function SpellDetails() {
         <RenderHTML
           contentWidth={width}
           source={{ html: spell.description }}
-          baseStyle={styles.description}
+          tagsStyles={descriptionStyles}
         />
       </View>
 

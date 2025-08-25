@@ -1,5 +1,5 @@
-export function camelCaseObjectKeys(obj: Record<string, any>): Record<string, any> {
-	const newObj: Record<string, any> = {};
+export function camelCaseObjectKeys(obj) {
+	const newObj = {};
 
 	for (const key in obj) {
 		if (obj.hasOwnProperty(key)) {

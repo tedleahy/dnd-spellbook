@@ -1,9 +1,6 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { RootStackParamList } from '../utils/types';
+import { useRoute } from '@react-navigation/native';
 import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
 import RenderHTML from 'react-native-render-html';
-
-type SpellDetailsRouteProp = RouteProp<RootStackParamList, 'SpellDetails'>;
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +35,7 @@ const descriptionStyles = {
 }
 
 export default function SpellDetails() {
-  const route = useRoute<SpellDetailsRouteProp>();
+  const route = useRoute();
   const { spell } = route.params;
   const { width } = useWindowDimensions();
 

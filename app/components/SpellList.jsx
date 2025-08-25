@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../utils/constants";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList, Spell } from "../utils/types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { camelCaseObjectKeys } from "../utils/objects";
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SpellList'>;
-
-type PaginationInfo = {
-  currentPage: number;
-  hasNextPage: boolean;
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -30,10 +21,10 @@ const styles = StyleSheet.create({
 });
 
 export default function SpellList() {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation();
 
-  const [spells, setSpells] = useState<Spell[]>([]);
-  const [pagination, setPagination] = useState<PaginationInfo>({ currentPage: 1, hasNextPage: true });
+  const [spells, setSpells] = useState([]);
+  const [pagination, setPagination] = useState({ currentPage: 1, hasNextPage: true });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -90,7 +81,7 @@ export default function SpellList() {
     <View style={styles.container}>
       <FlatList
         data={spells}
-        renderItem={({ item }: { item: Spell }) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => navigation.navigate('SpellDetails', { spell: item })}
           >

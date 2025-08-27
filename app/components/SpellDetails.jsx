@@ -1,5 +1,11 @@
 import { useRoute } from '@react-navigation/native';
-import { View, Text, StyleSheet, ScrollView, useWindowDimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+} from 'react-native';
 import RenderHTML from 'react-native-render-html';
 
 const styles = StyleSheet.create({
@@ -32,7 +38,7 @@ const descriptionStyles = {
   li: {
     fontSize: 16,
   },
-}
+};
 
 export default function SpellDetails() {
   const route = useRoute();

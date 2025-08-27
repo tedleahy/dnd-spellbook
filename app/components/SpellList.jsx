@@ -1,8 +1,15 @@
-import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { API_URL } from "../utils/constants";
-import { useNavigation } from "@react-navigation/native";
-import { camelCaseObjectKeys } from "../utils/objects";
+import { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { API_URL } from '../utils/constants';
+import { useNavigation } from '@react-navigation/native';
+import { camelCaseObjectKeys } from '../utils/objects';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,14 +24,17 @@ const styles = StyleSheet.create({
   loadingContainer: {
     padding: 20,
     alignItems: 'center',
-  }
+  },
 });
 
 export default function SpellList() {
   const navigation = useNavigation();
 
   const [spells, setSpells] = useState([]);
-  const [pagination, setPagination] = useState({ currentPage: 1, hasNextPage: true });
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    hasNextPage: true,
+  });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -40,9 +50,12 @@ export default function SpellList() {
 
       const fetchedSpells = data.spells.map(camelCaseObjectKeys);
 
-      setSpells(currentSpells => [...currentSpells, ...fetchedSpells]);
+      setSpells((currentSpells) => [...currentSpells, ...fetchedSpells]);
 
-      setPagination({ currentPage: page, hasNextPage: data.pagination.has_next_page });
+      setPagination({
+        currentPage: page,
+        hasNextPage: data.pagination.has_next_page,
+      });
     } catch (error) {
       console.error('Failed to fetch spells:', error);
     } finally {
@@ -52,29 +65,33 @@ export default function SpellList() {
   }
 
   useEffect(() => {
-    fetchSpells()
+    fetchSpells();
   }, []);
 
   function loadMoreSpells() {
     if (pagination?.hasNextPage && !loading) {
-      fetchSpells(pagination.currentPage + 1)
+      fetchSpells(pagination.currentPage + 1);
     }
   }
 
-  const Footer = () => (
+  const Footer = () =>
     loading ? (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" />
       </View>
-    ) : null
-  );
+    ) : null;
 
   if (initialLoading) {
     return (
-            <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
+      <View
+        style={[
+          styles.container,
+          { justifyContent: 'center', alignItems: 'center' },
+        ]}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (

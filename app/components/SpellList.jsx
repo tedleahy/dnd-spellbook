@@ -1,25 +1,12 @@
 import { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { API_URL } from '../utils/constants';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { camelCaseObjectKeys } from '../utils/objects';
+import { ActivityIndicator, Divider, List } from 'react-native-paper';
+import { fetchSpells } from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22,
-  },
-  spellItem: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
   },
   loadingContainer: {
     padding: 20,
@@ -78,12 +65,7 @@ export default function SpellList() {
 
   if (initialLoading) {
     return (
-      <View
-        style={[
-          styles.container,
-          { justifyContent: 'center', alignItems: 'center' },
-        ]}
-      >
+      <View style={[styles.container, { justifyContent: 'center' }]}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -94,11 +76,16 @@ export default function SpellList() {
       <FlatList
         data={spells}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SpellDetails', { spell: item })}
-          >
-            <Text style={styles.spellItem}>{item.name}</Text>
-          </TouchableOpacity>
+          <>
+            <List.Item
+              title={item.name}
+              titleStyle={{ fontSize: 18 }}
+              onPress={() =>
+                navigation.navigate('SpellDetails', { spell: item })
+              }
+            />
+            <Divider />
+          </>
         )}
         onEndReached={loadMoreSpells}
         onEndReachedThreshold={0.1}

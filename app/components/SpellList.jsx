@@ -38,17 +38,12 @@ export default function SpellList() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  async function fetchSpells(page = 1) {
-    // Prevent multiple simultaneous requests
-    if (loading) return;
-
+  async function loadSpells(page = 1) {
+    if (loading) return; // Prevent multiple simultaneous requests
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/spells?page=${page}`);
-      const data = await response.json();
-
-      const fetchedSpells = data.spells.map(camelCaseObjectKeys);
+      const { fetchedSpells, isLastPage } = await fetchSpells(page);
 
       setSpells((currentSpells) => [...currentSpells, ...fetchedSpells]);
 
@@ -65,7 +60,7 @@ export default function SpellList() {
   }
 
   useEffect(() => {
-    fetchSpells();
+    loadSpells();
   }, []);
 
   function loadMoreSpells() {

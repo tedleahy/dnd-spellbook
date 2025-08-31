@@ -33,7 +33,7 @@ export default function SpellList() {
   const [spells, setSpells] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
-    hasNextPage: true,
+    isLastPage: false,
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function SpellList() {
 
       setPagination({
         currentPage: page,
-        hasNextPage: data.pagination.has_next_page,
+        isLastPage,
       });
     } catch (error) {
       console.error('Failed to fetch spells:', error);

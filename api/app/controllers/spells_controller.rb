@@ -18,8 +18,7 @@ class SpellsController < ApplicationController
         per_page: per_page,
         total_pages: total_pages,
         total_count: total_count,
-        has_next_page: page < total_pages,
-        has_previous_page: page > 1,
+        is_last_page: page == total_pages,
       },
     }
   end

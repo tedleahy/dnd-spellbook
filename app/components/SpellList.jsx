@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator, Divider, List } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Divider,
+  List,
+  Searchbar,
+} from 'react-native-paper';
 import { fetchSpells } from '../utils/api';
 
 const styles = StyleSheet.create({
@@ -24,6 +29,7 @@ export default function SpellList() {
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   async function loadSpells(page = 1) {
     if (loading) return; // Prevent multiple simultaneous requests
@@ -73,6 +79,15 @@ export default function SpellList() {
 
   return (
     <View style={styles.container}>
+      <Searchbar
+        style={{ margin: 8, marginBottom: 0 }}
+        placeholder="Search Spells..."
+        onChangeText={(query) => {
+          setSearchQuery(query);
+        }}
+        value={searchQuery}
+      />
+
       <FlatList
         data={spells}
         renderItem={({ item }) => (

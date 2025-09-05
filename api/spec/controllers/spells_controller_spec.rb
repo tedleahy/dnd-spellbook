@@ -19,9 +19,10 @@ RSpec.describe SpellsController, type: :controller do
       expect(response_data["spells"]).to eq(expected_spells)
       expect(response_data["pagination"]).to include(
         "current_page" => 1,
-        "per_page" => 20,
-        "total_count" => 2,
-        "total_pages" => 1,
+        "per_page"     => Spell::MAX_PER_PAGE,
+        "total_pages"  => 1,
+        "total_count"  => 2,
+        "is_last_page" => true,
       )
     end
 

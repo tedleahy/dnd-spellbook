@@ -1,22 +1,11 @@
 {
-    "folders": [
-        {
-            "name": "dnd-spellbook",
-            "path": ".",
-        },
-        {
-            "name": "api",
-            "path": "api",
-        },
-        {
-            "name": "app",
-            "path": "app",
-        }
-    ],
-    "settings": {
-        "files.exclude": {
-            "api": true,
-            "app": true,
-        }
-    }
+	"folders": [
+		{
+			"path": "app"
+		},
+		{
+			"path": "api"
+		}
+	],
+	"settings": {}
 }

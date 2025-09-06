@@ -29,19 +29,19 @@ export default function SpellList() {
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useState({});
 
-  async function loadSpells(page = 1) {
+  async function loadSpells(search_params) {
     if (loading) return; // Prevent multiple simultaneous requests
     setLoading(true);
 
     try {
-      const { fetchedSpells, isLastPage } = await fetchSpells(page);
+      const { fetchedSpells, isLastPage } = await fetchSpells(pagination.currentPage, search_params);
 
-      setSpells((currentSpells) => [...currentSpells, ...fetchedSpells]);
+      setSpells(fetchedSpells);
 
       setPagination({
-        currentPage: page,
+        currentPage: pagination.currentPage,
         isLastPage,
       });
     } catch (error) {
@@ -53,12 +53,12 @@ export default function SpellList() {
   }
 
   useEffect(() => {
-    loadSpells();
-  }, []);
+    loadSpells(searchParams);
+  }, [searchParams]);
 
   function loadMoreSpells() {
     if (pagination?.hasNextPage && !loading) {
-      fetchSpells(pagination.currentPage + 1);
+      fetchSpells(pagination.currentPage + 1, searchParams);
     }
   }
 
@@ -82,10 +82,8 @@ export default function SpellList() {
       <Searchbar
         style={{ margin: 8, marginBottom: 0 }}
         placeholder="Search Spells..."
-        onChangeText={(query) => {
-          setSearchQuery(query);
-        }}
-        value={searchQuery}
+        onChangeText={(query) => setSearchParams({ name: query })}
+        value={searchParams.name}
       />
 
       <FlatList

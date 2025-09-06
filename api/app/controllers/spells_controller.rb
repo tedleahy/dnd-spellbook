@@ -8,6 +8,8 @@ class SpellsController < ApplicationController
 
     # Search filters
     spells = spells.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+    spells = spells.where(level: params[:levels].split(',')) if params[:levels].present?
+    spells = spells.where(school: params[:schools].split(',')) if params[:schools].present?
 
     spells = spells.order(:level, :name)
                    .offset((page - 1) * per_page)

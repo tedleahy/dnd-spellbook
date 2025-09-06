@@ -3,11 +3,14 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   ActivityIndicator,
+  Button,
   Divider,
   List,
+  Modal,
   Searchbar,
 } from 'react-native-paper';
 import { fetchSpells } from '../utils/api';
+import SpellListFilterDrawer from './SpellListFilterDrawer';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,13 +33,17 @@ export default function SpellList() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [searchParams, setSearchParams] = useState({});
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
-  async function loadSpells(search_params) {
+  async function loadSpells(searchParams) {
     if (loading) return; // Prevent multiple simultaneous requests
     setLoading(true);
 
     try {
-      const { fetchedSpells, isLastPage } = await fetchSpells(pagination.currentPage, search_params);
+      const { fetchedSpells, isLastPage } = await fetchSpells(
+        pagination.currentPage,
+        searchParams,
+      );
 
       setSpells(fetchedSpells);
 
@@ -86,6 +93,15 @@ export default function SpellList() {
         value={searchParams.name}
       />
 
+      <Button
+        icon="filter"
+        mode="outlined"
+        onPress={() => setDrawerVisible(true)}
+        style={{ margin: 8 }}
+      >
+        Filter
+      </Button>
+
       <FlatList
         data={spells}
         renderItem={({ item }) => (
@@ -104,6 +120,22 @@ export default function SpellList() {
         onEndReachedThreshold={0.1}
         ListFooterComponent={Footer}
       />
+
+      <Modal
+        visible={drawerVisible}
+        onDismiss={() => setDrawerVisible(false)}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          padding: 20,
+          margin: 20,
+          borderRadius: 8,
+        }}
+      >
+        <SpellListFilterDrawer
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
+      </Modal>
     </View>
   );
 }

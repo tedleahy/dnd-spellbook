@@ -4,9 +4,14 @@ class SpellsController < ApplicationController
     per_page = params[:per_page]&.to_i || Spell::MAX_PER_PAGE
     per_page = [ per_page, Spell::MAX_PER_PAGE ].min # Have a limit
 
-    spells = Spell.order(:level, :name)
-                  .offset((page - 1) * per_page)
-                  .limit(per_page)
+    spells = Spell.all
+
+    # Search filters
+    spells = spells.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+
+    spells = spells.order(:level, :name)
+                   .offset((page - 1) * per_page)
+                   .limit(per_page)
 
     total_count = Spell.count
     total_pages = (total_count / per_page.to_f).ceil

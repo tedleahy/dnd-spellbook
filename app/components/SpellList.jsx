@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator, Divider, List } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Divider,
+  List,
+  Searchbar,
+} from 'react-native-paper';
 import { fetchSpells } from '../utils/api';
 
 const styles = StyleSheet.create({
@@ -24,18 +29,19 @@ export default function SpellList() {
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [searchParams, setSearchParams] = useState({});
 
-  async function loadSpells(page = 1) {
+  async function loadSpells(search_params) {
     if (loading) return; // Prevent multiple simultaneous requests
     setLoading(true);
 
     try {
-      const { fetchedSpells, isLastPage } = await fetchSpells(page);
+      const { fetchedSpells, isLastPage } = await fetchSpells(pagination.currentPage, search_params);
 
-      setSpells((currentSpells) => [...currentSpells, ...fetchedSpells]);
+      setSpells(fetchedSpells);
 
       setPagination({
-        currentPage: page,
+        currentPage: pagination.currentPage,
         isLastPage,
       });
     } catch (error) {
@@ -47,12 +53,12 @@ export default function SpellList() {
   }
 
   useEffect(() => {
-    loadSpells();
-  }, []);
+    loadSpells(searchParams);
+  }, [searchParams]);
 
   function loadMoreSpells() {
     if (pagination?.hasNextPage && !loading) {
-      fetchSpells(pagination.currentPage + 1);
+      fetchSpells(pagination.currentPage + 1, searchParams);
     }
   }
 
@@ -73,6 +79,13 @@ export default function SpellList() {
 
   return (
     <View style={styles.container}>
+      <Searchbar
+        style={{ margin: 8, marginBottom: 0 }}
+        placeholder="Search Spells..."
+        onChangeText={(query) => setSearchParams({ name: query })}
+        value={searchParams.name}
+      />
+
       <FlatList
         data={spells}
         renderItem={({ item }) => (
